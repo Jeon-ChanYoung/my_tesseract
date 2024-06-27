@@ -1,6 +1,7 @@
 import pytesseract
 import pandas as pd
 from PIL import Image
+import re
 
 # Tesseract 경로 설정
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
@@ -15,8 +16,8 @@ rows = text.split('\n')
 # 데이터 클리닝 및 빈 행 제거
 cleaned_rows = []
 for row in rows:
-    # 불필요한 공백 및 특수 문자 제거
-    clean_row = row.strip().replace("[", "").replace("]", "").replace("|", "").replace("_","")
+    # 불필요한 공백 및 특수 문자 제거 (정규 표현식 사용)
+    clean_row = re.sub(r'[\[\]|_]', '', row.strip())
     
     # 공백이 아닌 유효한 행만 추가
     if clean_row:
